@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import {useState} from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { client, deleteEvent, fetchEvent } from "../../store/http";
@@ -19,7 +19,7 @@ export default function EventDetails() {
     mutationFn:deleteEvent,
     onSuccess:()=>{
       client.invalidateQueries({queryKey:['events'],refetchType:'none'})
-      navigate('/events');
+     
     }
   })
   const startDeleteHandler = ()=>{
@@ -30,6 +30,7 @@ export default function EventDetails() {
   }
   const deleteNewEvent = ()=>{
     mutate({id:id});
+    navigate('../');
   }
   let content;
   if(isPending){
@@ -72,7 +73,7 @@ export default function EventDetails() {
     <>
       {isDeleting && <Modal>
         <h2>Are you sure?</h2>
-        <p>Do you really want to delete this event?this action can't be undone.</p>
+        <p>Do you really want to delete this event?this action cant be undone.</p>
         <div className="form-actions">
             {deletePending && <p>Deleting , please wait...</p>}
             {!deletePending && (<>            <button className="button-text" onClick={stopDeleteHandler}>Cancel</button>
